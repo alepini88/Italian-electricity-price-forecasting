@@ -228,3 +228,8 @@ __marimo__/
 # Operating system files
 .DS_Store
 Thumbs.db
+
+# Locally generated SQLite databases
+/data/**/*.db
+/data/**/*.sqlite
+/data/**/*.sqlite3
