@@ -218,3 +218,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific rules: electricity market datasets
+# Keep original GME data files local
+/data/**/*.xlsx
+/data/**/*.xls
+/data/**/*.csv
+
+# Operating system files
+.DS_Store
+Thumbs.db
