@@ -114,13 +114,3 @@ The file is read from the `Prezzi-Prices` worksheet.
 The dataset contains 8,784 hourly observations covering 366 days in 2024.
 
 The analysis identified no missing values or duplicate date-hour combinations. The two daylight saving time transition dates contain 23 and 25 observations, respectively.
-
-### Future Data Integration
-
-Milestone 6 will investigate additional electricity market variables, including demand forecasts, renewable generation forecasts, and weather forecasts, subject to their availability and usage conditions.
-
-Only data available at the forecast issuance time will be considered as predictive inputs.
-
-## Current Status
-
-The initial forecasting experiments are complete. The repository is being organized and documented, and the next technical phase will focus on integrating external data and evaluating improved forecasting models.
