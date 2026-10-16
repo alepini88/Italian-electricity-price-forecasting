@@ -62,6 +62,21 @@ figures/    Charts and diagnostic visualizations
 reports/    Technical reports and documentation
 ```
 
+## Project Roadmap
+
+**Milestones 1–5 — Initial forecasting workflow and model evaluation**
+
+Completed analyses include data validation, historical baselines, regression experiments, Random Forest modeling, leakage-aware feature engineering, and test-set error diagnostics.
+
+**Milestone 6 — External Data Integration (Planned)**
+
+The next development phase will investigate external variables relevant to the Italian electricity market, including:
+
+- Electricity demand forecasts
+- Renewable generation forecasts
+- Weather forecasts
+- Additional calendar and market information
+
 # Data Sources
 
 ## Historical Electricity Prices — Italy, 2024
@@ -103,21 +118,6 @@ The analysis identified no missing values or duplicate date-hour combinations. T
 ### Future Data Integration
 
 Milestone 6 will investigate additional electricity market variables, including demand forecasts, renewable generation forecasts, and weather forecasts, subject to their availability and usage conditions.
-
-## Project Roadmap
-
-**Milestones 1–5 — Initial forecasting workflow and model evaluation**
-
-Completed analyses include data validation, historical baselines, regression experiments, Random Forest modeling, leakage-aware feature engineering, and test-set error diagnostics.
-
-**Milestone 6 — External Data Integration (Planned)**
-
-The next development phase will investigate external variables relevant to the Italian electricity market, including:
-
-- Electricity demand forecasts
-- Renewable generation forecasts
-- Weather forecasts
-- Additional calendar and market information
 
 Only data available at the forecast issuance time will be considered as predictive inputs.
 
