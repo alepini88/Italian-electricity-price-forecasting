@@ -8,7 +8,7 @@ This project develops and evaluates forecasting models for hourly electricity pr
 
 **Operational scenario:** at **12:00 on day D−1**, forecast the hourly prices for day D. Historical-price features are restricted to observations from **D−2 or earlier**, avoiding reliance on the complete set of D−1 prices, which would not yet be available at issuance time.
 
-The repository documents exploratory data analysis, SQL workflows, historical baselines, model development, chronological evaluation, and a follow-up analysis of market conditions in the validation and test periods. Emphasis is placed on reproducibility, realistic feature availability, and transparent reporting.
+The repository documents exploratory data analysis, SQL workflows, historical baselines, model development, chronological evaluation, and a follow-up analysis of market conditions in the validation and test periods. Reusable Python modules and selected visualizations are also provided. Emphasis is placed on reproducibility, realistic feature availability, and transparent reporting.
 
 ## Technologies
 
@@ -76,6 +76,40 @@ The descriptive analysis uses **original observed prices**, not the filtered mod
 
 These differences are **consistent with**, but do **not establish the cause of**, the higher forecast errors. Price-level dispersion and day-to-day movements are distinct descriptive measures. The latter also differs from the project's D−2-or-earlier forecasting information horizon. No model is reselected or retuned using these already-inspected test results.
 
+## Forecasting Visualizations
+
+The [`figures/`](figures/README.md) directory contains three selected charts illustrating forecasting performance and differences between the validation and test periods.
+
+### Final-test errors by GME market hour
+
+![MAE by GME market hour for Linear Regression, Random Forest and D−2 baseline](figures/test_mae_by_hour.png)
+
+The historical D−2 baseline has particularly high errors around market hour 9. Both machine-learning models reduce these errors, although their relative performance varies across hours.
+
+### Final-test errors by month
+
+![Monthly test MAE for Linear Regression, Random Forest and D−2 baseline](figures/test_mae_by_month.png)
+
+All three methods have their highest test-month MAE in **December 2024**. Linear Regression and Random Forest outperform the D−2 baseline in each test month.
+
+### Observed prices: validation vs test
+
+![Observed electricity price distributions for validation and test periods](figures/validation_vs_test_price_distribution.png)
+
+The test-period price distribution has a higher mean than the validation-period distribution, with substantial overlap. These descriptive differences do not by themselves explain the change in forecasting errors. This chart uses the **original observed market-hour data**, including the extra October daylight-saving hour.
+
+## Reusable Python Modules
+
+The [`src/`](src/README.md) directory contains three reusable modules extracted from and tested against the notebook workflow:
+
+| Module | Purpose |
+|---|---|
+| [`data_loader.py`](src/data_loader.py) | Load and prepare the 2024 GME hourly price data. |
+| [`feature_engineering.py`](src/feature_engineering.py) | Build the eight calendar and leakage-aware historical-price features. |
+| [`evaluation.py`](src/evaluation.py) | Compute MAE/RMSE, compare models, and summarize errors by hour and month. |
+
+An integrated check using the three modules reproduced the **Linear Regression final-test MAE of 13.295 EUR/MWh and RMSE of 18.643 EUR/MWh**. See [`src/README.md`](src/README.md) for a runnable example and module documentation.
+
 ## Key Findings
 
 - The operational 12:00 issuance time makes **feature availability and leakage prevention** central to the forecasting design.
@@ -99,8 +133,8 @@ These differences are **consistent with**, but do **not establish the cause of**
 │   ├── 04_final_model_evaluation.ipynb
 │   └── 05_validation_vs_test_diagnostics.ipynb
 ├── sql/        # SQLite database builder, exploratory queries, query tests
-├── src/        # Reusable Python code
-├── figures/    # Charts and diagnostic visualizations
+├── src/        # data_loader.py, feature_engineering.py, evaluation.py, README.md
+├── figures/    # Three exported PNG charts and README.md
 └── reports/    # Technical reports and documentation
 ```
 
@@ -109,13 +143,16 @@ These differences are **consistent with**, but do **not establish the cause of**
 1. Obtain the original 2024 GME workbook and place it at `data/Anno 2024_12.xlsx` (see `data/README.md`).
 2. Install the Python packages used by the notebooks: `pandas`, `numpy`, `matplotlib`, `scikit-learn`, and `openpyxl`.
 3. Open Jupyter from the repository and execute notebooks **01 → 05** in order. Run them from the `notebooks/` directory; the notebooks read the workbook using the relative path `../data/Anno 2024_12.xlsx`.
-4. For the SQL workflow, follow [`sql/README.md`](sql/README.md).
+4. To reproduce the final Linear Regression metrics using the reusable Python modules, follow the example in [`src/README.md`](src/README.md).
+5. For the SQL workflow, follow [`sql/README.md`](sql/README.md).
 
 The generated SQLite database and original Excel workbook are not intended to be committed to the repository. Notebook 05 presents previously observed model MAE values for context; it does not independently recompute model predictions.
 
 ## Project Roadmap
 
 **Milestones 1–5 — Completed:** data validation and exploratory analysis; SQL workflow; historical forecasting baselines; model development and validation-based selection; final evaluation and hourly/monthly error diagnostics.
+
+**Reusable code and portfolio figures — Completed:** three tested Python modules in `src/`, three exported diagnostic charts in `figures/`, and directory-level documentation.
 
 **Additional diagnostic analysis — Completed:** comparison of observed validation and test market conditions, including price distributions, monthly dispersion, and same-hour day-to-day price movements (Notebook 05). This is a descriptive analysis and does not use the test period to retroactively optimize the reported models.
 
